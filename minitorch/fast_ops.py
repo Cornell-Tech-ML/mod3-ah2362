@@ -353,9 +353,40 @@ def _tensor_matrix_multiply(
     """
     a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
     b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
-
-    # TODO: Implement for Task 3.2.
-    raise NotImplementedError("Need to implement for Task 3.2")
+    
+    # Parallel over batch and i dimensions
+    for batch in prange(out_shape[0]):
+        for i in prange(out_shape[1]):
+            for j in range(out_shape[2]):
+                # Get output position
+                out_pos = (
+                    batch * out_strides[0] + 
+                    i * out_strides[1] + 
+                    j * out_strides[2]
+                )
+                
+                # Initialize accumulator
+                acc = 0.0
+                
+                # Inner loop - matrix multiply
+                for k in range(a_shape[2]):
+                    # Get positions in a and b
+                    a_pos = (
+                        batch * a_batch_stride +
+                        i * a_strides[1] + 
+                        k * a_strides[2]
+                    )
+                    b_pos = (
+                        batch * b_batch_stride +
+                        k * b_strides[1] + 
+                        j * b_strides[2]
+                    )
+                    
+                    # Multiply and accumulate
+                    acc += a_storage[a_pos] * b_storage[b_pos]
+                
+                # Store result
+                out[out_pos] = acc
 
 
 tensor_matrix_multiply = njit(_tensor_matrix_multiply, parallel=True)
