@@ -224,24 +224,22 @@ def tensor_zip(
     ) -> None:
         # Check if tensors are stride-aligned
         if (np.array_equal(out_strides, a_strides) and 
-            np.array_equal(out_strides, b_strides) and
+            np.array_equal(out_strides, b_strides) and 
             np.array_equal(out_shape, a_shape) and 
             np.array_equal(out_shape, b_shape)):
             for i in prange(len(out)):
                 out[i] = fn(a_storage[i], b_storage[i])
             return
 
-        # If not stride-aligned, use indexing
+        # If not stride-aligned, use broadcasting
         size = len(out)
         for i in prange(size):
             out_index = np.zeros(len(out_shape), np.int32)
             a_index = np.zeros(len(a_shape), np.int32)
             b_index = np.zeros(len(b_shape), np.int32)
-            
             to_index(i, out_shape, out_index)
             broadcast_index(out_index, out_shape, a_shape, a_index)
             broadcast_index(out_index, out_shape, b_shape, b_index)
-            
             out[index_to_position(out_index, out_strides)] = fn(
                 a_storage[index_to_position(a_index, a_strides)],
                 b_storage[index_to_position(b_index, b_strides)]
