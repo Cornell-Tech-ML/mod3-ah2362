@@ -478,10 +478,61 @@ Epoch  470  loss  0.44929540384311983 correct 49 avg_time 1.1852s
 Epoch  480  loss  0.8046085695214704 correct 49 avg_time 1.1956s
 Epoch  490  loss  0.24591628115004016 correct 50 avg_time 1.1914s
 
-GPU SPLIT:
+GPU SIMPLE:
+Epoch  0  loss  4.996121367411161 correct 36 avg_time 3.2565s
+Epoch  10  loss  2.4630229177552354 correct 50 avg_time 1.2276s
+Epoch  20  loss  0.7583693951758232 correct 50 avg_time 1.2266s
+Epoch  30  loss  0.3794804651407728 correct 50 avg_time 1.2250s
+Epoch  40  loss  0.5499017234024558 correct 50 avg_time 1.2322s
+Epoch  50  loss  0.8311017365599187 correct 50 avg_time 1.2479s
+Epoch  60  loss  0.5615823674143959 correct 50 avg_time 1.2181s
+Epoch  70  loss  0.20320246502852446 correct 50 avg_time 1.2159s
+Epoch  80  loss  0.37166771042856545 correct 50 avg_time 1.2356s
+Epoch  90  loss  0.035906140863969406 correct 50 avg_time 1.2173s
+Epoch  100  loss  0.1131218407584596 correct 50 avg_time 1.2337s
+Epoch  110  loss  0.09424754099510367 correct 50 avg_time 1.2134s
+Epoch  120  loss  0.2336781296332956 correct 50 avg_time 1.2145s
+Epoch  130  loss  0.17434461717233757 correct 50 avg_time 1.2245s
+Epoch  140  loss  0.28757521746904813 correct 50 avg_time 1.2254s
+Epoch  150  loss  0.02601162948862425 correct 50 avg_time 1.2190s
+Epoch  160  loss  0.1659136823417941 correct 50 avg_time 1.2090s
+Epoch  170  loss  0.13726422678414965 correct 50 avg_time 1.2078s
+Epoch  180  loss  0.19497280327449878 correct 50 avg_time 1.2088s
+Epoch  190  loss  0.019516962384149423 correct 50 avg_time 1.2028s
+Epoch  200  loss  0.34177944394540377 correct 50 avg_time 1.1889s
+Epoch  210  loss  0.21112240256752693 correct 50 avg_time 1.2028s
+Epoch  220  loss  0.14184890284788362 correct 50 avg_time 1.2027s
+Epoch  230  loss  0.09513306995168153 correct 50 avg_time 1.1981s
+Epoch  240  loss  0.09130555351899186 correct 50 avg_time 1.2058s
+Epoch  250  loss  0.008572592072471581 correct 50 avg_time 1.2028s
+Epoch  260  loss  0.2517643932706619 correct 50 avg_time 1.2140s
+Epoch  270  loss  0.042451382070780905 correct 50 avg_time 1.1966s
+Epoch  280  loss  0.017371067211791862 correct 50 avg_time 1.2067s
+Epoch  290  loss  0.011003767098545822 correct 50 avg_time 1.2088s
+Epoch  300  loss  0.04832878230323859 correct 50 avg_time 1.2070s
+Epoch  310  loss  0.07031167581531748 correct 50 avg_time 1.2083s
+Epoch  320  loss  0.02872292838690925 correct 50 avg_time 1.2112s
+Epoch  330  loss  0.05962452556542907 correct 50 avg_time 1.2015s
+Epoch  340  loss  0.11255420175767394 correct 50 avg_time 1.2083s
+Epoch  350  loss  0.1705327819693446 correct 50 avg_time 1.2049s
+Epoch  360  loss  0.1074674100237475 correct 50 avg_time 1.1916s
+Epoch  370  loss  0.055970564742945414 correct 50 avg_time 1.2032s
+Epoch  380  loss  0.18006461098103926 correct 50 avg_time 1.2071s
+Epoch  390  loss  0.0056236216363659075 correct 50 avg_time 1.2074s
+Epoch  400  loss  0.06599954031716106 correct 50 avg_time 1.2219s
+Epoch  410  loss  0.05308389502631436 correct 50 avg_time 1.2032s
+Epoch  420  loss  0.06505040890367565 correct 50 avg_time 1.2045s
+Epoch  430  loss  0.04735277438510477 correct 50 avg_time 1.2002s
+Epoch  440  loss  0.028749222845038506 correct 50 avg_time 1.2031s
+Epoch  450  loss  0.03710859282276398 correct 50 avg_time 1.2112s
+Epoch  460  loss  0.08749356435774537 correct 50 avg_time 1.1960s
+Epoch  470  loss  0.00158903308045874 correct 50 avg_time 1.1999s
+Epoch  480  loss  0.06772686294096443 correct 50 avg_time 1.2079s
+Epoch  490  loss  0.044892920818721205 correct 50 avg_time 1.2083s
 
 
 CPU SPLIT:
+
 Epoch  0  loss  7.593465113149294 correct 29 avg_time 14.8155s
 Epoch  10  loss  6.195920404153672 correct 37 avg_time 0.0881s
 Epoch  20  loss  4.4147028550024965 correct 41 avg_time 0.0871s
@@ -534,6 +585,7 @@ Epoch  480  loss  0.1362713872732746 correct 50 avg_time 0.0889s
 Epoch  490  loss  0.6735020976226861 correct 50 avg_time 0.0877s
 
 CPU XOR:
+
 Epoch  0  loss  7.1289160736365735 correct 36 avg_time 14.9377s
 Epoch  10  loss  3.9659662643202616 correct 45 avg_time 0.0873s
 Epoch  20  loss  4.081161377674962 correct 45 avg_time 0.0866s
@@ -583,4 +635,57 @@ Epoch  450  loss  0.7211583809227131 correct 49 avg_time 0.0854s
 Epoch  460  loss  1.5582165286235814 correct 50 avg_time 0.0857s
 Epoch  470  loss  1.2109993812378583 correct 49 avg_time 0.1051s
 Epoch  480  loss  0.8306202034234899 correct 49 avg_time 0.1664s
-Epoch  490  loss  0.2797296629950458 correct 49 avg_time 0.0907s
+Epoch  490  loss  0.2797296629950458 correct 50 avg_time 0.0907s
+
+CPU SIMPLE:
+
+Epoch  0  loss  4.929938666780947 correct 40 avg_time 14.1548s
+Epoch  10  loss  2.4221685510283693 correct 49 avg_time 0.0866s
+Epoch  20  loss  2.0079917398048837 correct 49 avg_time 0.0856s
+Epoch  30  loss  0.44999638767023126 correct 50 avg_time 0.0875s
+Epoch  40  loss  1.0632022786636275 correct 50 avg_time 0.0873s
+Epoch  50  loss  1.119805124464014 correct 50 avg_time 0.0867s
+Epoch  60  loss  0.4858367929390459 correct 50 avg_time 0.0965s
+Epoch  70  loss  0.929197470683477 correct 50 avg_time 0.0856s
+Epoch  80  loss  0.8164767980511686 correct 50 avg_time 0.0849s
+Epoch  90  loss  0.4046308550739049 correct 50 avg_time 0.0867s
+Epoch  100  loss  0.4274406393788119 correct 50 avg_time 0.1039s
+Epoch  110  loss  0.48076663458481045 correct 50 avg_time 0.1701s
+Epoch  120  loss  0.2995220736550029 correct 50 avg_time 0.0897s
+Epoch  130  loss  0.6088668182892374 correct 50 avg_time 0.0863s
+Epoch  140  loss  0.11354103284888781 correct 50 avg_time 0.0843s
+Epoch  150  loss  0.49457006642095597 correct 50 avg_time 0.0870s
+Epoch  160  loss  0.3583109793903248 correct 50 avg_time 0.0879s
+Epoch  170  loss  0.020895221698952388 correct 50 avg_time 0.0856s
+Epoch  180  loss  0.15660957909154608 correct 50 avg_time 0.0859s
+Epoch  190  loss  0.16928852047397172 correct 50 avg_time 0.0861s
+Epoch  200  loss  0.37729319269504935 correct 50 avg_time 0.0879s
+Epoch  210  loss  0.7253205934277381 correct 50 avg_time 0.0834s
+Epoch  220  loss  0.3675373196179513 correct 50 avg_time 0.0844s
+Epoch  230  loss  0.17509927164216355 correct 50 avg_time 0.1107s
+Epoch  240  loss  0.42477993139187403 correct 50 avg_time 0.1653s
+Epoch  250  loss  0.13273592658104613 correct 50 avg_time 0.0853s
+Epoch  260  loss  0.07630997426853965 correct 50 avg_time 0.0846s
+Epoch  270  loss  0.26044323536864883 correct 50 avg_time 0.0852s
+Epoch  280  loss  0.04889965072207245 correct 50 avg_time 0.0861s
+Epoch  290  loss  0.1697333178789281 correct 50 avg_time 0.0852s
+Epoch  300  loss  0.07523666970011753 correct 50 avg_time 0.0856s
+Epoch  310  loss  0.006324721080208577 correct 50 avg_time 0.0857s
+Epoch  320  loss  0.052467057894475616 correct 50 avg_time 0.0871s
+Epoch  330  loss  0.02668406165796993 correct 50 avg_time 0.0850s
+Epoch  340  loss  0.17881077876176119 correct 50 avg_time 0.0866s
+Epoch  350  loss  0.03099877527405253 correct 50 avg_time 0.0897s
+Epoch  360  loss  0.25495398577096756 correct 50 avg_time 0.1247s
+Epoch  370  loss  0.1023038635919712 correct 50 avg_time 0.1573s
+Epoch  380  loss  0.13967552535435254 correct 50 avg_time 0.0866s
+Epoch  390  loss  0.007167935229997192 correct 50 avg_time 0.0875s
+Epoch  400  loss  0.006110511116085157 correct 50 avg_time 0.0846s
+Epoch  410  loss  0.21915729367800496 correct 50 avg_time 0.0853s
+Epoch  420  loss  0.20814766708819218 correct 50 avg_time 0.0863s
+Epoch  430  loss  0.06546458204490425 correct 50 avg_time 0.0854s
+Epoch  440  loss  0.10288742866310108 correct 50 avg_time 0.0849s
+Epoch  450  loss  0.15214235168800777 correct 50 avg_time 0.0854s
+Epoch  460  loss  0.020405540741369486 correct 50 avg_time 0.0850s
+Epoch  470  loss  0.08272515730058644 correct 50 avg_time 0.0865s
+Epoch  480  loss  0.002133883636922475 correct 50 avg_time 0.0861s
+Epoch  490  loss  0.007614727278661712 correct 50 avg_time 0.1226s
