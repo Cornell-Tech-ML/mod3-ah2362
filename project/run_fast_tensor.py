@@ -14,7 +14,7 @@ if numba.cuda.is_available():
 # def default_log_fn(epoch, total_loss, correct, losses):
 #     print("Epoch ", epoch, " loss ", total_loss, "correct", correct)
 
-def default_log_fn(epoch, total_loss, correct, losses, epoch_time=0):
+def default_log_fn(epoch, total_loss, correct, losses, epoch_time=0, backend_type=None):
     print("Epoch ", epoch, " loss ", total_loss, "correct", correct, f"avg time per epoch: {epoch_time:.4f}s")
 
 
@@ -109,7 +109,7 @@ class FastTrain:
                 out = self.model.forward(X).view(y.shape[0])
                 y2 = minitorch.tensor(data.y)
                 correct = int(((out.detach() > 0.5) == y2).sum()[0])
-                log_fn(epoch, total_loss, correct, losses, epoch_start_time, backend_type)
+                log_fn(epoch, total_loss, correct, losses, epoch_time=epoch_start_time, backend_type=backend_type)
 
 
 if __name__ == "__main__":
