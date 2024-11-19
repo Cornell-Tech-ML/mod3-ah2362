@@ -1,4 +1,5 @@
 import random
+import time
 
 import numba
 
@@ -10,8 +11,15 @@ if numba.cuda.is_available():
     GPUBackend = minitorch.TensorBackend(minitorch.CudaOps)
 
 
-def default_log_fn(epoch, total_loss, correct, losses):
-    print("Epoch ", epoch, " loss ", total_loss, "correct", correct)
+# def default_log_fn(epoch, total_loss, correct, losses):
+#     print("Epoch ", epoch, " loss ", total_loss, "correct", correct)
+
+def default_log_fn(epoch, total_loss, correct, losses, epoch_time=None, backend_type="CPU"):
+    """Enhanced logging function that includes timing and backend information"""
+    accuracy = correct / 50 * 100  # Assuming 50 points, adjust if different
+    print(f"[{backend_type}] Epoch {epoch:3d} | Loss: {total_loss:.6f} | Accuracy: {accuracy:.2f}% | Correct: {correct}/{50}")
+    if epoch_time is not None:
+        print(f"Time per epoch: {epoch_time:.4f} seconds")
 
 
 def RParam(*shape, backend):
@@ -70,8 +78,12 @@ class FastTrain:
         optim = minitorch.SGD(self.model.parameters(), learning_rate)
         BATCH = 10
         losses = []
-
+        
+        # Determine backend type for logging
+        backend_type = "GPU" if hasattr(self.backend, "cuda") else "CPU"
+        
         for epoch in range(max_epochs):
+            epoch_start_time = time.time()
             total_loss = 0.0
             c = list(zip(data.X, data.y))
             random.shuffle(c)
@@ -81,8 +93,7 @@ class FastTrain:
                 optim.zero_grad()
                 X = minitorch.tensor(X_shuf[i : i + BATCH], backend=self.backend)
                 y = minitorch.tensor(y_shuf[i : i + BATCH], backend=self.backend)
-                # Forward
-
+                
                 out = self.model.forward(X).view(y.shape[0])
                 prob = (out * y) + (out - 1.0) * (y - 1.0)
                 loss = -prob.log()
@@ -101,7 +112,7 @@ class FastTrain:
                 out = self.model.forward(X).view(y.shape[0])
                 y2 = minitorch.tensor(data.y)
                 correct = int(((out.detach() > 0.5) == y2).sum()[0])
-                log_fn(epoch, total_loss, correct, losses)
+                log_fn(epoch, total_loss, correct, losses, epoch_start_time, backend_type)
 
 
 if __name__ == "__main__":
