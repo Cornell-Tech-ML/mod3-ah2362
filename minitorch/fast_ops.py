@@ -176,11 +176,9 @@ def tensor_map(
 
         # If not stride-aligned, use indexing
         size = len(out)
-        # Hoist allocations out of parallel loop
-        out_index = np.empty(len(out_shape), np.int32)
-        in_index = np.empty(len(in_shape), np.int32)
-        
         for i in prange(size):
+            out_index = np.zeros(len(out_shape), np.int32)
+            in_index = np.zeros(len(in_shape), np.int32)
             to_index(i, out_shape, out_index)
             broadcast_index(out_index, out_shape, in_shape, in_index)
             out[index_to_position(out_index, out_strides)] = fn(
@@ -235,12 +233,10 @@ def tensor_zip(
 
         # If not stride-aligned, use broadcasting
         size = len(out)
-        # Hoist allocations out of parallel loop
-        out_index = np.empty(len(out_shape), np.int32)
-        a_index = np.empty(len(a_shape), np.int32)
-        b_index = np.empty(len(b_shape), np.int32)
-        
         for i in prange(size):
+            out_index = np.zeros(len(out_shape), np.int32)
+            a_index = np.zeros(len(a_shape), np.int32)
+            b_index = np.zeros(len(b_shape), np.int32)
             to_index(i, out_shape, out_index)
             broadcast_index(out_index, out_shape, a_shape, a_index)
             broadcast_index(out_index, out_shape, b_shape, b_index)
@@ -287,13 +283,10 @@ def tensor_reduce(
         for i in range(len(out_shape)):
             size *= out_shape[i]
 
-        # Hoist allocations out of parallel loop
-        out_index = np.empty(len(out_shape), np.int32)
-        a_index = np.empty(len(a_shape), np.int32)
-
         # Main parallel loop over non-reduced dimensions
         for i in prange(size):
             # Convert position to indices for output
+            out_index = np.zeros(len(out_shape), np.int32)
             to_index(i, out_shape, out_index)
             
             # Convert to position for output
@@ -302,6 +295,7 @@ def tensor_reduce(
             # Inner loop over reduced dimension
             for j in range(a_shape[reduce_dim]):
                 # Copy output index to get input index
+                a_index = np.zeros(len(a_shape), np.int32)
                 for k in range(len(out_shape)):
                     a_index[k] = out_index[k]
                 # Set the reduced dimension index
@@ -360,10 +354,9 @@ def _tensor_matrix_multiply(
     a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
     b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
     
-    # Parallel over batch dimension only
+    # Parallel over batch and i dimensions
     for batch in prange(out_shape[0]):
-        # Serial over i dimension as per optimization output
-        for i in range(out_shape[1]):
+        for i in prange(out_shape[1]):
             for j in range(out_shape[2]):
                 # Get output position
                 out_pos = (
