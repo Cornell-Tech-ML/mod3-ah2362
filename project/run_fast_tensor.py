@@ -14,12 +14,9 @@ if numba.cuda.is_available():
 # def default_log_fn(epoch, total_loss, correct, losses):
 #     print("Epoch ", epoch, " loss ", total_loss, "correct", correct)
 
-def default_log_fn(epoch, total_loss, correct, losses, epoch_time=None, backend_type="CPU"):
-    """Enhanced logging function that includes timing and backend information"""
-    accuracy = correct / 50 * 100  # Assuming 50 points, adjust if different
-    print(f"[{backend_type}] Epoch {epoch:3d} | Loss: {total_loss:.6f} | Accuracy: {accuracy:.2f}% | Correct: {correct}/{50}")
-    if epoch_time is not None:
-        print(f"Time per epoch: {epoch_time:.4f} seconds")
+def default_log_fn(epoch, total_loss, correct, losses, epoch_time=0):
+    print("Epoch ", epoch, " loss ", total_loss, "correct", correct, f"avg time per epoch: {epoch_time:.4f}s")
+
 
 
 def RParam(*shape, backend):
