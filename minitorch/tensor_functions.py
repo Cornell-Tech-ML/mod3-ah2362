@@ -233,9 +233,9 @@ class Mul(Function):
         ----------
         ctx : Context
             The context in which the operation is performed.
-        t1 : Tensor
+        a : Tensor
             The first input tensor.
-        t2 : Tensor
+        b : Tensor
             The second input tensor.
 
         Returns
@@ -265,7 +265,7 @@ class Mul(Function):
         a, b = ctx.saved_values
         return (
             grad_output.f.mul_zip(b, grad_output),
-            grad_output.f.mul_zip(a, grad_output)
+            grad_output.f.mul_zip(a, grad_output),
         )
 
 
@@ -438,9 +438,9 @@ class Sum(Function):
         ----------
         ctx : Context
             The context in which the operation is performed.
-        t1 : Tensor
-            The input tensor.
-        dimT : Tensor
+        a : Tensor
+            The input tensor to sum over.
+        dim : Tensor
             The dimensions to sum over.
 
         Returns
@@ -464,7 +464,7 @@ class Sum(Function):
 
         Returns
         -------
-        Tensor: The gradient of the input with respect to the output.
+        Tuple[Tensor, float]: The gradient of the input with respect to the output and a float (0.0).
 
         """
         a_shape, dim = ctx.saved_values
@@ -480,10 +480,10 @@ class LT(Function):
         ----------
         ctx : Context
             The context in which the operation is performed.
-        t1 : Tensor
-            The first input tensor.
-        t2 : Tensor
-            The second input tensor.
+        a : Tensor
+            The first input tensor to compare.
+        b : Tensor
+            The second input tensor to compare.
 
         Returns
         -------
@@ -491,7 +491,7 @@ class LT(Function):
 
         """
         ctx.save_for_backward(a.shape, b.shape)
-        return a.f.lt_zip(a,b)
+        return a.f.lt_zip(a, b)
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
@@ -523,10 +523,10 @@ class EQ(Function):
         ----------
         ctx : Context
             The context in which the operation is performed.
-        t1 : Tensor
-            The first input tensor.
-        t2 : Tensor
-            The second input tensor.
+        a : Tensor
+            The first input tensor to compare.
+        b : Tensor
+            The second input tensor to compare.
 
         Returns
         -------
@@ -534,7 +534,7 @@ class EQ(Function):
 
         """
         ctx.save_for_backward(a.shape, b.shape)
-        return a.f.eq_zip(a,b)
+        return a.f.eq_zip(a, b)
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
@@ -565,10 +565,10 @@ class IsClose(Function):
         ----------
         ctx : Context
             The context in which the operation is performed.
-        t1 : Tensor
-            The first input tensor.
-        t2 : Tensor
-            The second input tensor.
+        a : Tensor
+            The first input tensor to compare.
+        b : Tensor
+            The second input tensor to compare.
 
         Returns
         -------
@@ -587,8 +587,8 @@ class Permute(Function):
         ----------
         ctx : Context
             The context in which the operation is performed.
-        t1 : Tensor
-            The input tensor.
+        a : Tensor
+            The input tensor to permute.
         order : Tensor
             The permutation order.
 
@@ -601,7 +601,7 @@ class Permute(Function):
         return a._new(a._tensor.permute(*[int(order[i]) for i in range(order.size)]))
 
     @staticmethod
-    def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
+    def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
         """Compute the backward pass for permuting dimensions.
 
         Args:
@@ -618,7 +618,7 @@ class Permute(Function):
         order2: List[int] = [
             a[0]
             for a in sorted(
-                enumerate([order[i] for i in range(order.size)]), key = lambda a: a[1]
+                enumerate([order[i] for i in range(order.size)]), key=lambda a: a[1]
             )
         ]
         return grad_output._new(grad_output._tensor.permute(*order2)), 0.0

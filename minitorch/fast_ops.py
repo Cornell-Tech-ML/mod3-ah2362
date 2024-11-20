@@ -7,7 +7,6 @@ from numba import prange
 from numba import njit as _njit
 
 from .tensor_data import (
-    MAX_DIMS,
     broadcast_index,
     index_to_position,
     shape_broadcast,
@@ -19,7 +18,7 @@ if TYPE_CHECKING:
     from typing import Callable, Optional
 
     from .tensor import Tensor
-    from .tensor_data import Index, Shape, Storage, Strides
+    from .tensor_data import Shape, Storage, Strides
 
 # TIP: Use `NUMBA_DISABLE_JIT=1 pytest tests/ -m task3_1` to run these tests without JIT.
 
@@ -30,6 +29,18 @@ Fn = TypeVar("Fn")
 
 
 def njit(fn: Fn, **kwargs: Any) -> Fn:
+    """JIT compile a function with inlining enabled.
+
+    Args:
+    ----
+        fn: Function to compile
+        **kwargs: Additional arguments to pass to numba.njit
+
+    Returns:
+    -------
+        Compiled function with inlining enabled
+
+    """
     return _njit(inline="always", **kwargs)(fn)  # type: ignore
 
 
@@ -169,7 +180,9 @@ def tensor_map(
         in_strides: Strides,
     ) -> None:
         # Check if tensors are stride-aligned
-        if np.array_equal(out_strides, in_strides) and np.array_equal(out_shape, in_shape):
+        if np.array_equal(out_strides, in_strides) and np.array_equal(
+            out_shape, in_shape
+        ):
             for i in prange(len(out)):
                 out[i] = fn(in_storage[i])
             return
@@ -222,10 +235,12 @@ def tensor_zip(
         b_strides: Strides,
     ) -> None:
         # Check if tensors are stride-aligned
-        if (np.array_equal(out_strides, a_strides) and 
-            np.array_equal(out_strides, b_strides) and 
-            np.array_equal(out_shape, a_shape) and 
-            np.array_equal(out_shape, b_shape)):
+        if (
+            np.array_equal(out_strides, a_strides)
+            and np.array_equal(out_strides, b_strides)
+            and np.array_equal(out_shape, a_shape)
+            and np.array_equal(out_shape, b_shape)
+        ):
             for i in prange(len(out)):
                 out[i] = fn(a_storage[i], b_storage[i])
             return
@@ -241,7 +256,7 @@ def tensor_zip(
             broadcast_index(out_index, out_shape, b_shape, b_index)
             out[index_to_position(out_index, out_strides)] = fn(
                 a_storage[index_to_position(a_index, a_strides)],
-                b_storage[index_to_position(b_index, b_strides)]
+                b_storage[index_to_position(b_index, b_strides)],
             )
 
     return njit(_zip, parallel=True)  # type: ignore
@@ -287,10 +302,10 @@ def tensor_reduce(
             # Convert position to indices for output
             out_index = np.empty(len(out_shape), np.int32)
             to_index(i, out_shape, out_index)
-            
+
             # Convert to position for output
             out_pos = index_to_position(out_index, out_strides)
-            
+
             # Inner loop over reduced dimension
             for j in range(a_shape[reduce_dim]):
                 # Copy output index to get input index
@@ -299,7 +314,7 @@ def tensor_reduce(
                     a_index[k] = out_index[k]
                 # Set the reduced dimension index
                 a_index[reduce_dim] = j
-                
+
                 # Get input position and apply reduction
                 a_pos = index_to_position(a_index, a_strides)
                 out[out_pos] = fn(out[out_pos], a_storage[a_pos])
@@ -352,38 +367,28 @@ def _tensor_matrix_multiply(
     """
     a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
     b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
-    
+
     # Parallel over batch and i dimensions
     for batch in prange(out_shape[0]):
         for i in range(out_shape[1]):
             for j in range(out_shape[2]):
                 # Get output position
                 out_pos = (
-                    batch * out_strides[0] + 
-                    i * out_strides[1] + 
-                    j * out_strides[2]
+                    batch * out_strides[0] + i * out_strides[1] + j * out_strides[2]
                 )
-                
+
                 # Initialize accumulator
                 acc = 0.0
-                
+
                 # Inner loop - matrix multiply
                 for k in range(a_shape[2]):
                     # Get positions in a and b
-                    a_pos = (
-                        batch * a_batch_stride +
-                        i * a_strides[1] + 
-                        k * a_strides[2]
-                    )
-                    b_pos = (
-                        batch * b_batch_stride +
-                        k * b_strides[1] + 
-                        j * b_strides[2]
-                    )
-                    
+                    a_pos = batch * a_batch_stride + i * a_strides[1] + k * a_strides[2]
+                    b_pos = batch * b_batch_stride + k * b_strides[1] + j * b_strides[2]
+
                     # Multiply and accumulate
                     acc += a_storage[a_pos] * b_storage[b_pos]
-                
+
                 # Store result
                 out[out_pos] = acc
 

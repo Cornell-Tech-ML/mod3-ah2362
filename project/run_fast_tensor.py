@@ -32,10 +32,10 @@ class Network(minitorch.Module):
     def forward(self, x):
         # Hidden layer 1 with ReLU activation
         h1 = self.layer1.forward(x).relu()
-        
-        # Hidden layer 2 with ReLU activation  
+
+        # Hidden layer 2 with ReLU activation
         h2 = self.layer2.forward(h1).relu()
-        
+
         # Output layer with sigmoid activation
         return self.layer3.forward(h2).sigmoid()
 
@@ -99,7 +99,7 @@ class FastTrain:
             epoch_end = time.time()
             epoch_times.append(epoch_end - epoch_start)
             losses.append(total_loss)
-            
+
             # Logging
             if epoch % 10 == 0 or epoch == max_epochs:
                 X = minitorch.tensor(data.X, backend=self.backend)

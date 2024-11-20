@@ -451,7 +451,7 @@ class Tensor:
 
         Args:
         ----
-            other (TensorLike): The tensor to compare with.
+            b (TensorLike): The tensor to compare with.
 
         Returns:
         -------
@@ -465,7 +465,7 @@ class Tensor:
 
         Args:
         ----
-            other (TensorLike): The tensor to compare with.
+            b (TensorLike): The tensor to compare with.
 
         Returns:
         -------
@@ -554,6 +554,7 @@ class Tensor:
 
         """
         return Exp.apply(self)
+
     def sum(self, dim: Optional[int] = None) -> Tensor:
         """Sums the tensor along a dimension."""
         if dim is None:

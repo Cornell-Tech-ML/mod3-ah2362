@@ -65,7 +65,7 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
         out_index : return index corresponding to position.
 
     """
-    cur_ord = ordinal + 0 
+    cur_ord = ordinal + 0
     for i in range(len(shape) - 1, -1, -1):
         sh = shape[i]
         out_index[i] = int(cur_ord % sh)
@@ -326,7 +326,7 @@ class TensorData:
         assert list(sorted(order)) == list(
             range(len(self.shape))
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
-        
+
         return TensorData(
             self._storage,
             tuple([self.shape[o] for o in order]),

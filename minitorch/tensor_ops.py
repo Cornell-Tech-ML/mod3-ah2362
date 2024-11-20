@@ -11,7 +11,6 @@ from .tensor_data import (
     index_to_position,
     shape_broadcast,
     to_index,
-    Index,
 )
 
 if TYPE_CHECKING:
@@ -340,7 +339,6 @@ def tensor_reduce(
             out[out_pos] = fn(out[out_pos], a_storage[a_pos])
 
     return _reduce
-
 
 
 SimpleBackend = TensorBackend(SimpleOps)

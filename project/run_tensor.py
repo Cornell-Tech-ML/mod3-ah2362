@@ -22,7 +22,7 @@ class Linear(minitorch.Module):
     def forward(self, t: minitorch.Tensor) -> minitorch.Tensor:
         batch, in_size = x.shape
         return (
-            self.weights.value.view(1, in_size, self.out_size) 
+            self.weights.value.view(1, in_size, self.out_size)
             * x.view(batch, in_size, 1)
             ).sum(1).view(batch, self.out_size) + self.bias.value.view(1, self.out_size)
 
